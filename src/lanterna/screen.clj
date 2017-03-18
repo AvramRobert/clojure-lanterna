@@ -1,5 +1,5 @@
 (ns lanterna.screen
-  (:import 
+  (:import
     [com.googlecode.lanterna SGR TerminalPosition TextCharacter]
     [com.googlecode.lanterna.screen Screen TerminalScreen])
   (:require [lanterna.constants :as c]
@@ -82,16 +82,16 @@
   user, and will ignore the charset entirely."
   ([] (get-screen :auto {}))
   ([kind] (get-screen kind {}))
-  ([kind {:as opts
-     :keys [title cols rows charset resize-listener font font-size palette]
-     :or {:title "terminal"
-          :cols 80
-          :rows 24
-          :charset :utf-8
-          :resize-listener nil
-          :font ["Droid Sans Mono" "DejaVu Sans Mono" "Consolas" "Monospaced" "Mono"]
-          :font-size 14
-          :palette :mac-os-x}}]
+  ([kind {:as   opts
+          :keys [title cols rows charset resize-listener font font-size palette]
+          :or   {:title           "terminal"
+                 :cols            80
+                 :rows            24
+                 :charset         :utf-8
+                 :resize-listener nil
+                 :font            ["Droid Sans Mono" "DejaVu Sans Mono" "Consolas" "Monospaced" "Mono"]
+                 :font-size       14
+                 :palette         :mac-os-x}}]
    (new TerminalScreen (t/get-terminal kind opts))))
 
 (defn start
@@ -116,7 +116,7 @@
   `(let [screen# ~screen]
      (start screen#)
      (try ~@body
-       (finally (stop screen#)))))
+          (finally (stop screen#)))))
 
 (defn get-size
   "Return the current size of the screen as [cols rows]."
@@ -168,16 +168,19 @@
   ([^Screen screen ^Character ch ^Integer x ^Integer y]
    (put-character screen ch x y {}))
   ([^Screen screen ^Character ch ^Integer x ^Integer y
-    {:as opts
+    {:as   opts
      :keys [fg bg styles]
-     :or {fg :default
-          bg :default
-          styles #{}}}]
-   (let [tchar (new TextCharacter ch (c/colors fg) (c/colors bg)
+     :or   {fg     :default
+            bg     :default
+            styles #{}}}]
+   (let [tchar (new TextCharacter
+                    ch
+                    (c/colors fg)
+                    (c/colors bg)
                     (into-array SGR (map c/styles styles)))]
-     (move-cursor 
+     (move-cursor
        (doto screen
-         (.setCharacter x y tchar)) 
+         (.setCharacter x y tchar))
        (inc x) y))))
 
 (defn put-string
@@ -198,13 +201,13 @@
    (let [[x y] (get-cursor screen)]
      (put-string screen s x y {})))
   ([^Screen screen ^String s ^Integer x ^Integer y]
-    (put-string screen s x y {}))
+   (put-string screen s x y {}))
   ([^Screen screen ^String s ^Integer x ^Integer y
-    {:as opts
+    {:as   opts
      :keys [fg bg styles]
-     :or {fg :default
-          bg :default
-          styles #{}}}]
+     :or   {fg     :default
+            bg     :default
+            styles #{}}}]
    (doseq [[incx ch] (enumerate s)]
      (put-character screen ch (+ x incx) y opts))
    screen))
@@ -261,12 +264,12 @@
   (letfn [(put-item [c r item]
             (cond
               (string? item) (put-string screen c r item)
-              (char? item)   (put-string screen c r (str item))
+              (char? item) (put-string screen c r (str item))
               (vector? item) (let [[i opts] item]
                                (if (char? i)
                                  (put-string screen c r (str i) opts)
                                  (put-string screen c r i opts)))
-              :else nil ; TODO: die loudly
+              :else nil                                     ; TODO: die loudly
               ))
           (put-row [r row]
             (doseq [[c item] (enumerate row)]
@@ -283,6 +286,4 @@
   (move-cursor (doto screen .clear) 0 0))
 
 (def get-keystroke i/get-keystroke)
-(def get-key i/get-key)
 (def get-keystroke-blocking i/get-keystroke-blocking)
-(def get-key-blocking i/get-keystroke-blocking)
