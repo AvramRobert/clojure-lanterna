@@ -128,9 +128,12 @@
   "Draw the screen, flushing all changes from the back buffer to the front
   buffer. Call this function after making a batch of changes to the back buffer
   to display them."
-  [^Screen screen]
-  (doto screen
-    .refresh))
+  ([^Screen screen]
+   (doto screen
+     .refresh))
+  ([^Screen screen refresh-type]
+   (doto screen
+     (.refresh (get c/refresh-types refresh-type :auto)))))
 
 (defn move-cursor
   "Move the cursor to a specific location on the screen."

@@ -3,7 +3,8 @@
            com.googlecode.lanterna.TextColor$ANSI
            com.googlecode.lanterna.terminal.swing.TerminalEmulatorPalette
            com.googlecode.lanterna.input.KeyType
-           com.googlecode.lanterna.SGR))
+           com.googlecode.lanterna.SGR
+           (com.googlecode.lanterna.screen Screen$RefreshType)))
 
 
 (def charsets {:utf-8 (Charset/forName "UTF-8")})
@@ -56,3 +57,8 @@
    :circled SGR/CIRCLED
    :strikethrough SGR/CROSSED_OUT
    :fraktur SGR/FRAKTUR})
+
+(def refresh-types
+  {:auto     Screen$RefreshType/AUTOMATIC
+   :delta    Screen$RefreshType/DELTA
+   :complete Screen$RefreshType/COMPLETE})
