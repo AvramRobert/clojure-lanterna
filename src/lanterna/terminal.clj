@@ -317,8 +317,9 @@
   (-gui [this] nil)
   (-textgraphics [this] (.newTextGraphics this)))
 
-(comment
 (def get-keystroke i/get-keystroke)
-(def get-key i/get-key)
 (def get-keystroke-blocking i/get-keystroke-blocking)
+
+(comment
+(def get-key i/get-key)
 (def get-key-blocking i/get-keystroke-blocking))
