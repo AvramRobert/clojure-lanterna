@@ -316,10 +316,3 @@
   (-screen [this] nil)
   (-gui [this] nil)
   (-textgraphics [this] (.newTextGraphics this)))
-
-(def get-keystroke i/get-keystroke)
-(def get-keystroke-blocking i/get-keystroke-blocking)
-
-(comment
-(def get-key i/get-key)
-(def get-key-blocking i/get-keystroke-blocking))
